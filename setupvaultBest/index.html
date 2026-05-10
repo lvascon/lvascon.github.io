@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setups Vault · Bestiary Arena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & TOKENS ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:         #0b0b0f;
+  --bg2:        #10101a;
+  --surface:    #16161f;
+  --surface2:   #1c1c28;
+  --surface3:   #23232f;
+  --border:     #252530;
+  --border2:    #32324a;
+  --amber:      #f59e0b;
+  --amber-d:    #b45309;
+  --amber-glow: rgba(245,158,11,.12);
+  --amber-ring: rgba(245,158,11,.25);
+  --text:       #e0e0ea;
+  --text-muted: #72728a;
+  --text-dim:   #3a3a50;
+  --radius:     8px;
+  --sidebar-w:  268px;
+  --hdr-h:      54px;
+  --font-d: 'Chakra Petch', sans-serif;
+  --font-b: 'Outfit', sans-serif;
+}
+
+html, body { height: 100%; overflow: hidden; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== SCROLLBARS ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+/* ===== APP GRID ===== */
+.app {
+  display: grid;
+  grid-template-rows: var(--hdr-h) 1fr;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  height: 100vh;
+}
+
+/* ===== HEADER ===== */
+header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0 1.25rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  z-index: 200;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.logo-icon {
+  color: var(--amber);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.logo-title {
+  font-family: var(--font-d);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.logo-sep {
+  font-family: var(--font-d);
+  font-size: .65rem;
+  color: var(--border2);
+  letter-spacing: 2px;
+}
+
+.logo-sub {
+  font-family: var(--font-d);
+  font-size: .65rem;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Search */
+.search-wrap {
+  flex: 1;
+  max-width: 520px;
+  position: relative;
+}
+
+.search-ico {
+  position: absolute;
+  left: .8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  width: 15px; height: 15px;
+  flex-shrink: 0;
+}
+
+#searchInput {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: .48rem 2.2rem .48rem 2.1rem;
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: .875rem;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+#searchInput:focus {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-glow);
+}
+
+#searchInput::placeholder { color: var(--text-dim); }
+
+#clearBtn {
+  position: absolute;
+  right: .55rem; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: .85rem;
+  line-height: 1;
+  padding: .2rem;
+  border-radius: 3px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s, color .15s;
+}
+
+#clearBtn.show { opacity: 1; pointer-events: auto; }
+#clearBtn:hover { color: var(--text); }
+
+/* Stats */
+.hdr-stats {
+  margin-left: auto;
+  display: flex;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-val {
+  font-family: var(--font-d);
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--amber);
+  line-height: 1;
+  display: block;
+}
+
+.stat-lbl {
+  font-size: .6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  display: block;
+  margin-top: 2px;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  grid-column: 1;
+  grid-row: 2;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar section */
+.sb-section { border-bottom: 1px solid var(--border); }
+
+.sb-sec-hdr {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem 1rem;
+  background: var(--surface);
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--font-d);
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: color .15s;
+  border-bottom: 1px solid var(--border);
+}
+
+.sb-sec-hdr:hover { color: var(--text); }
+.sb-chevron { margin-left: auto; font-size: .7rem; transition: transform .2s; }
+.sb-section.closed .sb-chevron { transform: rotate(-90deg); }
+.sb-section.closed .sb-body { display: none; }
+
+/* Region groups in map index */
+.rg-group {}
+.rg-hdr {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .42rem .9rem .42rem 1rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  transition: background .1s;
+}
+
+.rg-hdr:hover { background: var(--surface3); }
+.rg-emoji { font-size: .9rem; }
+
+.rg-count {
+  margin-left: auto;
+  font-size: .65rem;
+  color: var(--text-muted);
+  background: var(--surface3);
+  padding: .1rem .4rem;
+  border-radius: 10px;
+  font-family: var(--font-d);
+  font-weight: 600;
+}
+
+.rg-chev {
+  color: var(--text-dim);
+  font-size: .6rem;
+  margin-left: .2rem;
+  transition: transform .15s;
+}
+
+.rg-group.closed .rg-chev { transform: rotate(-90deg); }
+.rg-group.closed .rg-maps { display: none; }
+
+/* Map items */
+.map-item {
+  display: flex;
+  align-items: center;
+  padding: .28rem .8rem .28rem 2rem;
+  font-size: .76rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background .1s, color .1s, border-left-color .1s;
+  border-left: 2px solid transparent;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.map-item:hover { background: var(--surface2); color: var(--text); }
+.map-item.active {
+  background: var(--amber-glow);
+  color: var(--amber);
+  border-left-color: var(--amber);
+}
+
+/* Creature index */
+.creature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: .4rem;
+}
+
+.cr-item {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .3rem .45rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background .1s;
+  min-width: 0;
+}
+
+.cr-item:hover { background: var(--surface3); }
+.cr-item.active { background: var(--amber-glow); }
+.cr-item.active .cr-name { color: var(--amber); }
+
+.cr-icon-wrap {
+  width: 24px; height: 24px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--surface3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cr-icon-wrap img {
+  width: 24px; height: 24px;
+  object-fit: cover;
+  display: block;
+}
+
+.cr-icon-fb {
+  width: 24px; height: 24px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.cr-name {
+  font-size: .7rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===== MAIN ===== */
+.main {
+  grid-column: 2;
+  grid-row: 2;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Filters bar */
+.filters-bar {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-bottom: .85rem;
+  min-height: 28px;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  background: var(--amber-glow);
+  border: 1px solid var(--amber-ring);
+  color: var(--amber);
+  padding: .2rem .55rem;
+  border-radius: 4px;
+  font-size: .72rem;
+  font-weight: 500;
+}
+
+.chip-label { font-size: .6rem; color: var(--amber-d); text-transform: uppercase; letter-spacing: .5px; }
+
+.chip-rm {
+  background: none; border: none;
+  color: var(--amber);
+  cursor: pointer;
+  font-size: .8rem;
+  line-height: 1;
+  padding: 0 .1rem;
+  opacity: .7;
+  transition: opacity .1s;
+}
+
+.chip-rm:hover { opacity: 1; }
+
+.results-info {
+  margin-left: auto;
+  font-size: .72rem;
+  color: var(--text-muted);
+  font-family: var(--font-d);
+}
+
+/* Region sections */
+.region-section { margin-bottom: 1.75rem; }
+
+.region-sec-title {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--font-d);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: .75rem;
+}
+
+.region-sec-title .rc { color: var(--amber); }
+
+/* Cards grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: .65rem;
+}
+
+/* Map card */
+.map-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color .2s, transform .15s;
+}
+
+.map-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+.map-card.highlighted { border-color: var(--amber); box-shadow: 0 0 0 1px var(--amber-ring); }
+
+.card-top { padding: .85rem 1rem .75rem; }
+
+.card-name-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-bottom: .55rem;
+}
+
+.card-name {
+  font-family: var(--font-d);
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.rgn-badge {
+  flex-shrink: 0;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--surface3);
+  padding: .15rem .5rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* Mob tags */
+.mob-tags { display: flex; flex-wrap: wrap; gap: .28rem; }
+
+.mob-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .28rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .12rem .38rem;
+  font-size: .7rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background .1s, color .1s, border-color .1s;
+}
+
+.mob-tag:hover { background: var(--surface3); color: var(--text); border-color: var(--border2); }
+.mob-tag.hl { background: var(--amber-glow); color: var(--amber); border-color: var(--amber-ring); }
+
+.mob-tag .ti {
+  width: 16px; height: 16px;
+  border-radius: 2px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--surface3);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+.mob-tag .ti img {
+  width: 16px; height: 16px;
+  object-fit: cover;
+  display: block;
+}
+
+.mob-tag .ti-fb {
+  width: 16px; height: 16px;
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .55rem; font-weight: 700;
+  color: #fff; text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* Card footer */
+.card-footer {
+  border-top: 1px solid var(--border);
+  padding: .42rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mob-count {
+  font-size: .68rem;
+  color: var(--text-dim);
+}
+
+.btn-setups {
+  background: none; border: none;
+  font-family: var(--font-b);
+  font-size: .72rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex; align-items: center; gap: .3rem;
+  padding: .15rem 0;
+  transition: color .12s;
+}
+
+.btn-setups:hover { color: var(--amber); }
+
+.btn-setups .arr {
+  display: inline-block;
+  transition: transform .2s;
+}
+
+.btn-setups.open .arr { transform: rotate(180deg); }
+
+/* Gallery */
+.gallery {
+  display: none;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: .75rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.gallery.open { display: flex; }
+
+.gallery img {
+  flex: 1 1 180px;
+  max-width: 220px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  transition: transform .15s, border-color .15s;
+  cursor: zoom-in;
+}
+
+.gallery img:hover { transform: scale(1.02); border-color: var(--amber-d); }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 5rem 2rem;
+  color: var(--text-muted);
+  grid-column: 1 / -1;
+}
+
+.empty-state .es-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.empty-state h3 { font-family: var(--font-d); font-size: 1rem; color: var(--text); margin-bottom: .4rem; }
+.empty-state p { font-size: .82rem; }
+
+/* Landing (no filter) */
+.landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1.5rem;
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+
+.landing-title {
+  font-family: var(--font-d);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.landing-sub {
+  font-size: .85rem;
+  max-width: 380px;
+  line-height: 1.6;
+}
+
+.landing-hint {
+  font-size: .75rem;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+.kbd {
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: .1rem .4rem;
+  font-family: var(--font-d);
+  font-size: .65rem;
+  color: var(--text-muted);
+}
+
+.landing-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.ls-item { text-align: center; }
+.ls-val {
+  font-family: var(--font-d);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--amber);
+  display: block;
+}
+.ls-lbl {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+/* ===== HAMBURGER ===== */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: .35rem;
+  border-radius: 5px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color .15s, background .15s;
+}
+.hamburger:hover { color: var(--text); background: var(--surface3); }
+.hamburger svg { display: block; }
+
+/* ===== SIDEBAR BACKDROP (mobile) ===== */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 290;
+  backdrop-filter: blur(2px);
+}
+.sidebar-backdrop.show { display: block; }
+
+/* ===== LIGHTBOX ===== */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0,0,0,.92);
+  backdrop-filter: blur(8px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox.open { display: flex; }
+
+.lb-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s;
+  z-index: 10;
+}
+.lb-close:hover { background: var(--border2); color: var(--amber); }
+
+.lb-title {
+  position: absolute;
+  top: 1rem; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-d);
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  max-width: 60vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lb-img-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 5rem;
+}
+
+.lb-img-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.8);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.lb-nav {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s, opacity .15s;
+  z-index: 10;
+}
+.lb-nav:hover { background: var(--border2); color: var(--amber); }
+.lb-nav:disabled { opacity: .25; cursor: default; }
+.lb-prev { left: .75rem; }
+.lb-next { right: .75rem; }
+
+.lb-counter {
+  position: absolute;
+  bottom: 1rem;
+  font-family: var(--font-d);
+  font-size: .75rem;
+  color: var(--text-muted);
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+
+.lb-dots {
+  display: flex;
+  gap: .35rem;
+  align-items: center;
+}
+
+.lb-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border2);
+  transition: background .2s, transform .2s;
+  cursor: pointer;
+}
+.lb-dot.active {
+  background: var(--amber);
+  transform: scale(1.3);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 767px) {
+
+  :root {
+    --sidebar-w: 280px;
+    --hdr-h: 52px;
+  }
+
+  /* Layout: single column, sidebar as overlay */
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--hdr-h) 1fr;
+  }
+
+  /* Header compact */
+  header {
+    gap: .75rem;
+    padding: 0 .85rem;
+  }
+
+  .logo-sep,
+  .logo-sub,
+  .hdr-stats { display: none; }
+
+  .hamburger { display: flex; align-items: center; justify-content: center; }
+
+  .search-wrap { max-width: 100%; }
+
+  /* Sidebar: fixed overlay drawer */
+  .sidebar {
+    grid-column: 1;
+    grid-row: 1 / -1; /* covers full height */
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    width: var(--sidebar-w);
+    z-index: 300;
+    transform: translateX(-100%);
+    transition: transform .25s cubic-bezier(.4,0,.2,1);
+    border-right: 1px solid var(--border2);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 32px rgba(0,0,0,.5);
+  }
+
+  /* Main: full width */
+  .main {
+    grid-column: 1;
+    grid-row: 2;
+    padding: .85rem;
+  }
+
+  /* Cards: single column */
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Landing stats compact */
+  .landing-stats { gap: 1.25rem; }
+  .ls-val { font-size: 1.2rem; }
+
+  /* Lightbox nav on small screens */
+  .lb-img-wrap { padding: 4rem 3rem; }
+  .lb-nav { width: 36px; height: 36px; font-size: 1rem; }
+  .lb-prev { left: .3rem; }
+  .lb-next { right: .3rem; }
+
+  /* Hide scrollbars on mobile gallery */
+  .gallery {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menu" onclick="toggleSidebar()">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="2" y1="5" x2="18" y2="5"/>
+      <line x1="2" y1="10" x2="18" y2="10"/>
+      <line x1="2" y1="15" x2="18" y2="15"/>
+    </svg>
+  </button>
+  <div class="logo">
+    <span class="logo-icon">⚔</span>
+    <span class="logo-title">Setups Vault</span>
+    <span class="logo-sep">·</span>
+    <span class="logo-sub">Bestiary Arena</span>
+  </div>
+
+  <div class="search-wrap">
+    <svg class="search-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="8.5" cy="8.5" r="5.5"/><path d="M15 15l-3.2-3.2"/>
+    </svg>
+    <input type="text" id="searchInput" placeholder="Buscar mapa, mob ou região..." autocomplete="off" spellcheck="false">
+    <button id="clearBtn" title="Limpar">✕</button>
+  </div>
+
+  <div class="hdr-stats">
+    <div class="stat"><span class="stat-val" id="sMapas">–</span><span class="stat-lbl">Mapas</span></div>
+    <div class="stat"><span class="stat-val" id="sRegioes">–</span><span class="stat-lbl">Regiões</span></div>
+    <div class="stat"><span class="stat-val" id="sCriaturas">–</span><span class="stat-lbl">Criaturas</span></div>
+  </div>
+</header>
+
+<aside class="sidebar">
+
+  <div class="sb-section" id="secMaps">
+    <div class="sb-sec-hdr" onclick="toggleSection('secMaps')">
+      <svg width="11" height="11" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M9 3L3 7v10l6-4 6 4V7L9 3z"/><path d="M9 3v16"/>
+      </svg>
+      Mapas
+      <span class="sb-chevron">▾</span>
+    </div>
+    <div class="sb-body" id="mapIndexBody"></div>
+  </div>
+
+  <div class="sb-section" id="secCreatures">
+    <div class="sb-sec-hdr" onclick="toggleSection('secCreatures')">
+      <svg width="11" height="11" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="10" cy="8" r="5"/><path d="M4 18c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+      </svg>
+      Criaturas
+      <span class="sb-chevron">▾</span>
+    </div>
+    <div class="sb-body" id="creatIndexBody"></div>
+  </div>
+
+</aside>
+
+<main class="main" id="main">
+  <div class="filters-bar" id="filtersBar">
+    <span class="results-info" id="resultsInfo"></span>
+  </div>
+  <div id="resultsContainer"></div>
+</main>
+
+</div><div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
+<div class="lightbox" id="lightbox">
+  <div class="lb-title" id="lbTitle"></div>
+  <button class="lb-close" id="lbClose" onclick="closeLightbox()" title="Fechar (Esc)">✕</button>
+
+  <button class="lb-nav lb-prev" id="lbPrev" onclick="lbGo(-1)" title="Anterior (←)">‹</button>
+
+  <div class="lb-img-wrap" id="lbImgWrap">
+    <img id="lbImg" src="" alt="Setup">
+  </div>
+
+  <button class="lb-nav lb-next" id="lbNext" onclick="lbGo(1)" title="Próximo (→)">›</button>
+
+  <div class="lb-counter">
+    <div class="lb-dots" id="lbDots"></div>
+    <span id="lbIndex"></span>
+  </div>
+</div>
+
+<script>
+// =====================================================
+// DATA
+// =====================================================
+const gameData = [
+  // Rookgaard
+  { region:"Rookgaard", map:"Sewers", mobs:["Rat"] },
+  { region:"Rookgaard", map:"Wheat Field", mobs:["Snake"] },
+  { region:"Rookgaard", map:"Evergreen Fields", mobs:["Rat","Sheep"] },
+  { region:"Rookgaard", map:"Wolf's Den", mobs:["Wolf"] },
+  { region:"Rookgaard", map:"Honeyflower Tower", mobs:["Wasp","Bear"] },
+  { region:"Rookgaard", map:"Spider Lair", mobs:["Poison Spider","Spider"] },
+  { region:"Rookgaard", map:"Goblin Bridge", mobs:["Minotaur","Goblin"] },
+  { region:"Rookgaard", map:"Goblin Temple", mobs:["Orc Spearman","Wasp","Goblin"] },
+  { region:"Rookgaard", map:"Minotaur Mage Room", mobs:["Minotaur","Minotaur Mage"] },
+  { region:"Rookgaard", map:"Rotten Graveyard", mobs:["Skeleton","Rotworm"] },
+  { region:"Rookgaard", map:"Katana Quest", mobs:["Skeleton","Rotworm","Troll"] },
+  { region:"Rookgaard", map:"Bear Room", mobs:["Minotaur Mage","Bear"] },
+  { region:"Rookgaard", map:"Minotaur Hell", mobs:["Minotaur","Wolf"] },
+  { region:"Rookgaard", map:"Amber's Raft", mobs:["Poison Spider","Snake","Bug"] },
+  { region:"Rookgaard", map:"Swampy Path", mobs:["Skeleton","Rotworm","Slime"] },
+  { region:"Rookgaard", map:"Lonesome Dragon", mobs:["Dragon"] },
+  { region:"Rookgaard", map:"Rat Plague", mobs:["Rat"] },
+
+  // Carlin
+  { region:"Carlin", map:"City Boardgames", mobs:["Bug","Wasp"] },
+  { region:"Carlin", map:"Carlin Sewers", mobs:["Bug","Slime"] },
+  { region:"Carlin", map:"Isle of Kings", mobs:["Monk"] },
+  { region:"Carlin", map:"Ghostlands Surface", mobs:["Rat","Ghost"] },
+  { region:"Carlin", map:"Ghostlands Library", mobs:["Poison Spider","Ghoul"] },
+  { region:"Carlin", map:"Ghostlands Ritual Site", mobs:["Fire Devil","Ghoul","Demon Skeleton"] },
+  { region:"Carlin", map:"Demon Skeleton Hell", mobs:["Demon Skeleton"] },
+  { region:"Carlin", map:"Zathroth's Throne", mobs:["Scorpion","Stalker","Mummy"] },
+  { region:"Carlin", map:"Demonrage Seal", mobs:["Demon Skeleton","Ghost"] },
+  { region:"Carlin", map:"Banshee's Last Room", mobs:["Banshee","Dragon Lord"] },
+  { region:"Carlin", map:"Maze Gates", mobs:["Ghoul","Dragon Lord","Minotaur Guard"] },
+  { region:"Carlin", map:"Labyrinth Depths", mobs:["Monk","Minotaur Archer","Cyclops"] },
+  { region:"Carlin", map:"Hidden City of Demona", mobs:["Elf Arcanist","Warlock"] },
+  { region:"Carlin", map:"Teleporter Trap", mobs:["Druid","Fire Devil","Monk"] },
+  { region:"Carlin", map:"Buzzing Madness", mobs:["Willi Wasp","Wasp"] },
+  { region:"Carlin", map:"Monastery Catacombs", mobs:["Ghost","Stalker"] },
+  { region:"Carlin", map:"Ghostlands Boneyard", mobs:["Skeleton","Rotworm"] },
+
+  // Folda
+  { region:"Folda", map:"Folda Boat", mobs:["Druid","Fire Elemental"] },
+  { region:"Folda", map:"Cave Entrance", mobs:["Frost Troll","Winter Wolf"] },
+  { region:"Folda", map:"Frozen Aquifer", mobs:["Water Elemental"] },
+  { region:"Folda", map:"Alawar's Vault", mobs:["Minotaur","Minotaur Mage","Minotaur Archer","Minotaur Guard"] },
+  { region:"Folda", map:"Vega Mountain", mobs:["Wyvern","Dragon Lord"] },
+  { region:"Folda", map:"Santa Claus Home", mobs:["Goblin","Wolf","Deer"] },
+  { region:"Folda", map:"Vega Stronghold", mobs:["Deer","Goblin"] },
+  { region:"Folda", map:"Permafrosted Hole", mobs:["Polar Bear"] },
+  { region:"Folda", map:"Jammed Mailbox", mobs:["Frost Troll","Winter Wolf","Yeti"] },
+  { region:"Folda", map:"Frosted Bunker", mobs:["Frost Troll","Water Elemental"] },
+
+  // Ab'Dendriel
+  { region:"Ab'Dendriel", map:"Hedge Maze", mobs:["Elf","Elf Scout"] },
+  { region:"Ab'Dendriel", map:"Ab'Dendriel Hive", mobs:["Wasp"] },
+  { region:"Ab'Dendriel", map:"Elvenbane", mobs:["Elf Arcanist","Demon Skeleton"] },
+  { region:"Ab'Dendriel", map:"Femor Hills", mobs:["Wolf","Goblin Scavenger","Goblin Assassin"] },
+  { region:"Ab'Dendriel", map:"Orcish Barracks", mobs:["Orc Berserker","Orc Leader","Orc Shaman"] },
+  { region:"Ab'Dendriel", map:"The Orc King Hall", mobs:["Orc Spearman","Slime","Orc Rider","Orc Warlord"] },
+  { region:"Ab'Dendriel", map:"A Shamanic Ritual", mobs:["Orc Shaman","Orc Leader"] },
+  { region:"Ab'Dendriel", map:"Shore Camp", mobs:["Orc Warlord"] },
+  { region:"Ab'Dendriel", map:"Orcsmith Orcshop", mobs:["Orc","Sweaty Cyclops","Orc Leader"] },
+  { region:"Ab'Dendriel", map:"Hedge Maze Trap", mobs:["Elf Scout"] },
+  { region:"Ab'Dendriel", map:"Tower of Whitewatch (Armor)", mobs:["Orc Rider","Orc Warlord"] },
+  { region:"Ab'Dendriel", map:"Tower of Whitewatch (Helmet)", mobs:["Orc Rider","Orc Warlord"] },
+  { region:"Ab'Dendriel", map:"Tower of Whitewatch (Shield)", mobs:["Orc Leader","Orc Rider","Orc Warlord"] },
+  { region:"Ab'Dendriel", map:"Orcish Barricade", mobs:["Orc Spearman","Orc Berserker"] },
+
+  // Kazordoon
+  { region:"Kazordoon", map:"Orc Fortress Outskirts", mobs:["Rorc","Wyvern"] },
+  { region:"Kazordoon", map:"The Farms", mobs:["Knight"] },
+  { region:"Kazordoon", map:"Dwarven Brewery", mobs:["Rat","Dwarf"] },
+  { region:"Kazordoon", map:"Mine Hub", mobs:["Rotworm","Dwarf","Dwarf Soldier","Dwarf Guard"] },
+  { region:"Kazordoon", map:"Emperor Kruzak's Treasure Room", mobs:["Dwarf Guard","Dwarf Geomancer"] },
+  { region:"Kazordoon", map:"Mad Technomancer's Lab", mobs:["Energy Crystal","Magma Crystal","Earth Crystal"] },
+  { region:"Kazordoon", map:"Awash Steamship", mobs:["Bog Raider"] },
+  { region:"Kazordoon", map:"Robson's Isle Ruins", mobs:["Banshee","Nightstalker"] },
+  { region:"Kazordoon", map:"Eclipse", mobs:["Witch"] },
+  { region:"Kazordoon", map:"Poacher Cave (Bear)", mobs:["Bear"] },
+  { region:"Kazordoon", map:"Poacher Cave (Wolf)", mobs:["Wolf"] },
+
+  // Venore
+  { region:"Venore", map:"Dwarven Bridge", mobs:["Old Giant Spider","Poison Spider"] },
+  { region:"Venore", map:"Wyda's House", mobs:["Slime","Knight","Witch"] },
+  { region:"Venore", map:"A Secluded Herb", mobs:["Giant Spider"] },
+  { region:"Venore", map:"Amazon Camp", mobs:["Amazon","Valkyrie"] },
+  { region:"Venore", map:"Black Knight Villa", mobs:["Black Knight","Dead Tree"] },
+  { region:"Venore", map:"Dragon Lair", mobs:["Dragon Lord","Lavahole"] },
+  { region:"Venore", map:"Corym Base Lounge", mobs:["Corym Charlatan","Corym Skirmisher"] },
+  { region:"Venore", map:"Underground Lake", mobs:["Corym Skirmisher","Corym Vanguard"] },
+  { region:"Venore", map:"Shadowthorn", mobs:["Dragon"] },
+  { region:"Venore", map:"Dwarven Bank Heist", mobs:["Dwarf Soldier"] },
+  { region:"Venore", map:"An Arcanist Ritual", mobs:["Demon Skeleton","Dharalion"] },
+];
+
+// =====================================================
+// REGION META
+// =====================================================
+const regionMeta = {
+  "Rookgaard":   { emoji:"🏝", color:"#10b981" },
+  "Carlin":      { emoji:"🏰", color:"#8b5cf6" },
+  "Folda":       { emoji:"❄️", color:"#22d3ee" },
+  "Ab'Dendriel": { emoji:"🌿", color:"#84cc16" },
+  "Kazordoon":   { emoji:"⛏️", color:"#f97316" },
+  "Venore":      { emoji:"⚓", color:"#3b82f6" },
+};
+
+// =====================================================
+// STATE
+// =====================================================
+let state = { mapFilter: null, mobFilter: null, query: '' };
+
+// Derived: all unique mobs sorted
+const allMobs = [...new Set(gameData.flatMap(d => d.mobs))].sort();
+const allRegions = [...new Set(gameData.map(d => d.region))];
+
+// =====================================================
+// UTILS
+// =====================================================
+const MOB_COLORS = ['#f59e0b','#10b981','#3b82f6','#8b5cf6','#ef4444','#ec4899','#06b6d4','#f97316','#84cc16','#a78bfa'];
+function mobColor(mob) {
+  let h = 0;
+  for (const c of mob) h = (h * 31 + c.charCodeAt(0)) & 0x7fffffff;
+  return MOB_COLORS[h % MOB_COLORS.length];
+}
+
+// Retorna todas as urls possiveis para suportar nomes variados
+function getPossibleImageUrls(mapName, i) {
+    const exact = mapName;
+    const lower = mapName.toLowerCase();
+    const underExact = exact.replace(/ /g, '_');
+    const underLower = lower.replace(/ /g, '_');
+    
+    // Antigo formato (preservado p/ retrocompatibilidade)
+    let f = mapName.toLowerCase().replace(/'/g,'').replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
+    const fUnder = f.replace(/ /g, '_');
+    
+    const bases = [...new Set([exact, lower, underExact, underLower, f, fUnder])];
+    
+    // Define os sufixos numéricos padrão
+    const suffixes = [`_${i}`, ` ${i}`, ` (${i})`];
+    
+    // SE for a primeira imagem, tenta primeiro sem nenhum número
+    if (i === 1) {
+        suffixes.unshift(''); 
+    }
+    
+    const urls = [];
+    
+    for (const base of bases) {
+        for (const suf of suffixes) {
+            urls.push(`${base}${suf}.png`);
+            urls.push(`${base}${suf}.jpg`);
+        }
+    }
+    return [...new Set(urls)];
+}
+
+// =====================================================
+// INIT
+// =====================================================
+window.addEventListener('DOMContentLoaded', () => {
+  // Stats
+  document.getElementById('sMapas').textContent    = gameData.length;
+  document.getElementById('sRegioes').textContent  = allRegions.length;
+  document.getElementById('sCriaturas').textContent = allMobs.length;
+
+  buildMapIndex();
+  buildCreatureIndex();
+  renderMain();
+
+  // Search
+  const inp = document.getElementById('searchInput');
+  const clr = document.getElementById('clearBtn');
+
+  inp.addEventListener('input', () => {
+    state.query = inp.value.trim().toLowerCase();
+    state.mapFilter = null;
+    state.mobFilter = null;
+    clr.classList.toggle('show', state.query.length > 0);
+    updateSidebarActive();
+    renderMain();
+  });
+
+  clr.addEventListener('click', () => {
+    inp.value = '';
+    state.query = '';
+    state.mapFilter = null;
+    state.mobFilter = null;
+    clr.classList.remove('show');
+    updateSidebarActive();
+    renderMain();
+  });
+
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { clr.click(); }
+  });
+});
+
+// =====================================================
+// SIDEBAR – MAP INDEX
+// =====================================================
+function buildMapIndex() {
+  const body = document.getElementById('mapIndexBody');
+  body.innerHTML = '';
+
+  for (const region of allRegions) {
+    const maps = gameData.filter(d => d.region === region);
+    const meta = regionMeta[region] || { emoji:'📍', color:'#f59e0b' };
+
+    const grp = document.createElement('div');
+    grp.className = 'rg-group';
+    grp.dataset.region = region;
+
+    const hdr = document.createElement('div');
+    hdr.className = 'rg-hdr';
+    hdr.innerHTML = `
+      <span class="rg-emoji">${meta.emoji}</span>
+      <span style="color:${meta.color}">${region}</span>
+      <span class="rg-count">${maps.length}</span>
+      <span class="rg-chev">▾</span>
+    `;
+    hdr.addEventListener('click', () => grp.classList.toggle('closed'));
+
+    const mapsDiv = document.createElement('div');
+    mapsDiv.className = 'rg-maps';
+
+    for (const d of maps) {
+      const item = document.createElement('div');
+      item.className = 'map-item';
+      item.dataset.map = d.map;
+      item.textContent = d.map;
+      item.addEventListener('click', () => setMapFilter(d.map));
+      mapsDiv.appendChild(item);
+    }
+
+    grp.appendChild(hdr);
+    grp.appendChild(mapsDiv);
+    body.appendChild(grp);
+  }
+}
+
+// =====================================================
+// SIDEBAR – CREATURE INDEX
+// =====================================================
+function buildCreatureIndex() {
+  const body = document.getElementById('creatIndexBody');
+  const grid = document.createElement('div');
+  grid.className = 'creature-grid';
+
+  for (const mob of allMobs) {
+    const item = document.createElement('div');
+    item.className = 'cr-item';
+    item.dataset.mob = mob;
+    item.title = mob;
+
+    const iconWrap = document.createElement('div');
+    iconWrap.className = 'cr-icon-wrap';
+
+    const img = document.createElement('img');
+    // Adicionando suporte nativo a GIF com '_' substituindo espaços
+    img.src = mob.replace(/ /g, '_') + '.gif'; 
+    img.alt = mob;
+    img.onerror = function() {
+      this.parentNode.innerHTML = `<div class="cr-icon-fb" style="background:${mobColor(mob)}">${mob[0]}</div>`;
+    };
+
+    iconWrap.appendChild(img);
+
+    const name = document.createElement('span');
+    name.className = 'cr-name';
+    name.textContent = mob;
+
+    item.appendChild(iconWrap);
+    item.appendChild(name);
+    item.addEventListener('click', () => setMobFilter(mob));
+
+    grid.appendChild(item);
+  }
+
+  body.appendChild(grid);
+}
+
+// =====================================================
+// SIDEBAR TOGGLE (sections)
+// =====================================================
+function toggleSection(id) {
+  document.getElementById(id).classList.toggle('closed');
+}
+
+// =====================================================
+// FILTERS
+// =====================================================
+function setMapFilter(map) {
+  if (state.mapFilter === map) {
+    state.mapFilter = null;
+  } else {
+    state.mapFilter = map;
+    state.mobFilter = null;
+    state.query = '';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('clearBtn').classList.remove('show');
+  }
+  updateSidebarActive();
+  renderMain();
+}
+
+function setMobFilter(mob) {
+  if (state.mobFilter === mob) {
+    state.mobFilter = null;
+  } else {
+    state.mobFilter = mob;
+    state.mapFilter = null;
+    state.query = '';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('clearBtn').classList.remove('show');
+  }
+  updateSidebarActive();
+  renderMain();
+}
+
+function clearAll() {
+  state.mapFilter = null;
+  state.mobFilter = null;
+  state.query = '';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('clearBtn').classList.remove('show');
+  updateSidebarActive();
+  renderMain();
+}
+
+// =====================================================
+// SIDEBAR ACTIVE STATES
+// =====================================================
+function updateSidebarActive() {
+  document.querySelectorAll('.map-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.map === state.mapFilter);
+  });
+  document.querySelectorAll('.cr-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.mob === state.mobFilter);
+  });
+}
+
+// =====================================================
+// FILTER & RENDER
+// =====================================================
+function getFiltered() {
+  return gameData.filter(d => {
+    if (state.mapFilter && d.map !== state.mapFilter) return false;
+    if (state.mobFilter && !d.mobs.includes(state.mobFilter)) return false;
+    if (state.query) {
+      const q = state.query;
+      return (
+        d.map.toLowerCase().includes(q) ||
+        d.region.toLowerCase().includes(q) ||
+        d.mobs.some(m => m.toLowerCase().includes(q))
+      );
+    }
+    return true;
+  });
+}
+
+function renderMain() {
+  const hasFilter = state.mapFilter || state.mobFilter || state.query;
+  const filtered  = hasFilter ? getFiltered() : gameData;
+
+  // Filters bar
+  const bar = document.getElementById('filtersBar');
+  bar.innerHTML = '';
+
+  if (state.mapFilter) {
+    bar.appendChild(makeChip('Mapa', state.mapFilter, () => setMapFilter(state.mapFilter)));
+  }
+  if (state.mobFilter) {
+    bar.appendChild(makeChip('Mob', state.mobFilter, () => setMobFilter(state.mobFilter)));
+  }
+  if (state.query) {
+    bar.appendChild(makeChip('Busca', `"${state.query}"`, clearAll));
+  }
+
+  const info = document.createElement('span');
+  info.className = 'results-info';
+  info.id = 'resultsInfo';
+  if (hasFilter) {
+    info.textContent = `${filtered.length} mapa${filtered.length !== 1 ? 's' : ''} encontrado${filtered.length !== 1 ? 's' : ''}`;
+  }
+  bar.appendChild(info);
+
+  // Container
+  const container = document.getElementById('resultsContainer');
+  container.innerHTML = '';
+
+  if (!hasFilter) {
+    // Landing
+    renderLanding(container);
+    return;
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="es-icon">🔍</div>
+        <h3>Nenhum resultado encontrado</h3>
+        <p>Tente outro nome de mapa, mob ou região.</p>
+      </div>`;
+    return;
+  }
+
+  // Group by region
+  const byRegion = {};
+  for (const d of filtered) {
+    if (!byRegion[d.region]) byRegion[d.region] = [];
+    byRegion[d.region].push(d);
+  }
+
+  for (const region of allRegions) {
+    if (!byRegion[region]) continue;
+    const maps = byRegion[region];
+    const meta = regionMeta[region] || { emoji:'📍', color:'#f59e0b' };
+
+    const section = document.createElement('div');
+    section.className = 'region-section';
+
+    const title = document.createElement('div');
+    title.className = 'region-sec-title';
+    title.innerHTML = `
+      <span>${meta.emoji}</span>
+      <span style="color:${meta.color}">${region}</span>
+      <span class="rc">${maps.length} mapa${maps.length !== 1 ? 's' : ''}</span>
+    `;
+
+    const grid = document.createElement('div');
+    grid.className = 'cards-grid';
+
+    for (const d of maps) {
+      grid.appendChild(buildCard(d));
+    }
+
+    section.appendChild(title);
+    section.appendChild(grid);
+    container.appendChild(section);
+  }
+}
+
+// =====================================================
+// LANDING (no filter state)
+// =====================================================
+function renderLanding(container) {
+  container.innerHTML = `
+    <div class="landing">
+      <div class="landing-title">⚔ Setups Vault</div>
+      <p class="landing-sub">Encontre o setup ideal para qualquer mapa ou criatura de forma rápida e precisa.</p>
+      <div class="landing-stats">
+        <div class="ls-item"><span class="ls-val">${gameData.length}</span><span class="ls-lbl">Mapas</span></div>
+        <div class="ls-item"><span class="ls-val">${allRegions.length}</span><span class="ls-lbl">Regiões</span></div>
+        <div class="ls-item"><span class="ls-val">${allMobs.length}</span><span class="ls-lbl">Criaturas</span></div>
+      </div>
+      <div class="landing-hint">
+        <span>Busque acima</span>
+        <span class="kbd">↑</span>
+        <span>ou clique em um mapa / criatura na barra lateral</span>
+      </div>
+    </div>
+  `;
+}
+
+// =====================================================
+// MAP CARD
+// =====================================================
+function buildCard(data) {
+  const card = document.createElement('div');
+  card.className = 'map-card';
+  if (state.mapFilter === data.map) card.classList.add('highlighted');
+
+  // Top
+  const top = document.createElement('div');
+  top.className = 'card-top';
+
+  const nameRow = document.createElement('div');
+  nameRow.className = 'card-name-row';
+
+  const name = document.createElement('div');
+  name.className = 'card-name';
+  name.textContent = data.map;
+
+  const badge = document.createElement('span');
+  badge.className = 'rgn-badge';
+  badge.textContent = data.region;
+
+  nameRow.appendChild(name);
+  nameRow.appendChild(badge);
+
+  const tags = document.createElement('div');
+  tags.className = 'mob-tags';
+
+  for (const mob of data.mobs) {
+    tags.appendChild(buildMobTag(mob));
+  }
+
+  top.appendChild(nameRow);
+  top.appendChild(tags);
+
+  // Footer
+  const footer = document.createElement('div');
+  footer.className = 'card-footer';
+
+  const mobCount = document.createElement('span');
+  mobCount.className = 'mob-count';
+  mobCount.textContent = `${data.mobs.length} tipo${data.mobs.length !== 1 ? 's' : ''} de mob`;
+
+  // Gallery starts open
+  const btnSetups = document.createElement('button');
+  btnSetups.className = 'btn-setups open';
+  btnSetups.innerHTML = `Fechar <span class="arr">▴</span>`;
+
+  const gallery = document.createElement('div');
+  gallery.className = 'gallery open';
+  const galleryImages = [];
+
+  for (let i = 1; i <= 5; i++) {
+    const urlsToTry = getPossibleImageUrls(data.map, i);
+    const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.alt = `Setup ${i} – ${data.map}`;
+    
+    let currentUrlIndex = 0;
+    img.src = urlsToTry[currentUrlIndex];
+
+    img.onerror = function() {
+      currentUrlIndex++;
+      if (currentUrlIndex < urlsToTry.length) {
+         this.src = urlsToTry[currentUrlIndex];
+      } else {
+         this.remove(); // Se falhar todos os fallback, remove a imagem
+      }
+    };
+    
+    img.onload = function() {
+      if (!galleryImages.includes(this.src)) galleryImages.push(this.src);
+      this.style.cursor = 'zoom-in';
+      this.addEventListener('click', () => {
+        const srcs = Array.from(gallery.querySelectorAll('img'))
+          .filter(el => el.complete && el.naturalWidth > 0)
+          .map(el => el.src);
+        const idx = srcs.indexOf(this.src);
+        openLightbox(srcs, idx < 0 ? 0 : idx, data.map);
+      });
+    };
+    gallery.appendChild(img);
+  }
+
+  btnSetups.addEventListener('click', () => {
+    const isOpen = gallery.classList.toggle('open');
+    btnSetups.classList.toggle('open', isOpen);
+    btnSetups.innerHTML = isOpen
+      ? `Fechar <span class="arr">▴</span>`
+      : `Ver Setups <span class="arr">▾</span>`;
+  });
+
+  footer.appendChild(mobCount);
+  footer.appendChild(btnSetups);
+
+  card.appendChild(top);
+  card.appendChild(footer);
+  card.appendChild(gallery);
+
+  return card;
+}
+
+// =====================================================
+// MOB TAG
+// =====================================================
+function buildMobTag(mob) {
+  const tag = document.createElement('div');
+  tag.className = 'mob-tag' + (state.mobFilter === mob ? ' hl' : '');
+
+  const tiWrap = document.createElement('span');
+  tiWrap.className = 'ti';
+
+  const img = document.createElement('img');
+  // Adicionando suporte nativo a GIF
+  img.src = mob.replace(/ /g, '_') + '.gif'; 
+  img.alt = mob;
+  img.onerror = function() {
+    this.parentNode.innerHTML = `<span class="ti-fb" style="background:${mobColor(mob)}">${mob[0]}</span>`;
+  };
+
+  tiWrap.appendChild(img);
+  tag.appendChild(tiWrap);
+  tag.appendChild(document.createTextNode(mob));
+
+  tag.addEventListener('click', e => {
+    e.stopPropagation();
+    setMobFilter(mob);
+  });
+
+  return tag;
+}
+
+// =====================================================
+// FILTER CHIP
+// =====================================================
+function makeChip(label, value, onRemove) {
+  const chip = document.createElement('div');
+  chip.className = 'filter-chip';
+  chip.innerHTML = `
+    <span class="chip-label">${label}</span>
+    <span>${value}</span>
+    <button class="chip-rm" title="Remover filtro">✕</button>
+  `;
+  chip.querySelector('.chip-rm').addEventListener('click', onRemove);
+  return chip;
+}
+
+// =====================================================
+// MOBILE SIDEBAR TOGGLE
+// =====================================================
+function toggleSidebar() {
+  const sb = document.querySelector('.sidebar');
+  const bd = document.getElementById('sidebarBackdrop');
+  const isOpen = sb.classList.toggle('open');
+  bd.classList.toggle('show', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// Close sidebar when a map/creature item is clicked on mobile
+document.addEventListener('click', e => {
+  if (window.innerWidth <= 767 && (e.target.closest('.map-item') || e.target.closest('.cr-item'))) {
+    closeSidebar();
+  }
+});
+
+// =====================================================
+// LIGHTBOX
+// =====================================================
+let lb = { srcs: [], idx: 0 };
+
+function openLightbox(srcs, idx, mapName) {
+  lb.srcs = srcs;
+  lb.idx  = idx;
+
+  document.getElementById('lbTitle').textContent = mapName || '';
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  lbRender();
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function lbGo(dir) {
+  lb.idx = (lb.idx + dir + lb.srcs.length) % lb.srcs.length;
+  lbRender();
+}
+
+function lbRender() {
+  const img    = document.getElementById('lbImg');
+  const dotsEl = document.getElementById('lbDots');
+  const idxEl  = document.getElementById('lbIndex');
+  const prev   = document.getElementById('lbPrev');
+  const next   = document.getElementById('lbNext');
+
+  img.src = lb.srcs[lb.idx];
+  idxEl.textContent = `${lb.idx + 1} / ${lb.srcs.length}`;
+
+  prev.disabled = lb.srcs.length <= 1;
+  next.disabled = lb.srcs.length <= 1;
+
+  // Dots
+  dotsEl.innerHTML = '';
+  lb.srcs.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'lb-dot' + (i === lb.idx ? ' active' : '');
+    dot.addEventListener('click', () => { lb.idx = i; lbRender(); });
+    dotsEl.appendChild(dot);
+  });
+}
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('lightbox');
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape')      closeLightbox();
+  if (e.key === 'ArrowLeft')   lbGo(-1);
+  if (e.key === 'ArrowRight')  lbGo(1);
+});
+
+// Touch swipe support
+let lbTouchX = null;
+
+document.getElementById('lightbox')?.addEventListener('touchstart', e => {
+  lbTouchX = e.touches[0].clientX;
+}, { passive: true });
+
+document.getElementById('lightbox')?.addEventListener('touchend', e => {
+  if (lbTouchX === null) return;
+  const dx = e.changedTouches[0].clientX - lbTouchX;
+  lbTouchX = null;
+  if (Math.abs(dx) < 40) return;
+  lbGo(dx < 0 ? 1 : -1);
+});
+
+// Click outside image to close
+document.getElementById('lbImgWrap')?.addEventListener('click', e => {
+  if (e.target.tagName !== 'IMG') closeLightbox();
+});
+</script>
+</body>
+</html>
