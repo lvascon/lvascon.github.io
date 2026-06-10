@@ -27,12 +27,12 @@ document.getElementById('btn-gerar').addEventListener('click', async () => {
   const a3 = document.getElementById('adv3').value;
   
   if(!nome || b1==="" || a1==="" || b2==="" || a2==="" || b3==="" || a3==="") {
-    alert("Por favor, preencha o seu nome e todos os 3 placares!");
+    alert("Por favor, preencha o seu nome e todos os placares!");
     return;
   }
 
-  // Gera um ID de transação curto único legível (Ex: LIM-M3A9)
-  const bilheteId = "LIM-" + Math.random().toString(36).substring(2, 6).toUpperCase();
+  // Gera um ID de transação curto único legível (Ex: IDM3A9)
+  const bilheteId = "ID" + Math.random().toString(36).substring(2, 6).toUpperCase();
 
   const pacoteDados = {
     id_bilhete: bilheteId,
