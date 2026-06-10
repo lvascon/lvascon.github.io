@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bolão dos Limas - Copa 2026</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+  <div class="stadium-glow" aria-hidden="true"></div>
+
+  <div class="container" id="app-container">
+    <div class="header">
+      <div class="header-kicker">Copa 2026 • Bolão Oficial</div>
+      <h1>Bolão dos <span>Limas</span></h1>
+      <p>Fase de Grupos • Escolha os 3 Placares</p>
+      <p class="combo-price">Inscrição Combo: R$ 15,00</p>
+    </div>
+
+    <div id="formulario-apostas" class="bets-form">
+      
+      <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/es.svg');">
+        <span class="jogo-info">Rodada 1 • 14 JUN 2026 • 16:00 (BRT)</span>
+        <div class="placar">
+          <div class="time home">
+            <span>BRA</span>
+          </div>
+          <div class="inputs" aria-label="Placar Brasil contra Espanha">
+            <input type="number" id="bra1" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 1">
+            <span class="versus">X</span>
+            <input type="number" id="adv1" min="0" placeholder="0" inputmode="numeric" aria-label="Gols da Espanha na rodada 1">
+          </div>
+          <div class="time away">
+            <span>ESP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/jp.svg');">
+        <span class="jogo-info">Rodada 2 • 19 JUN 2026 • 13:00 (BRT)</span>
+        <div class="placar">
+          <div class="time home">
+            <span>BRA</span>
+          </div>
+          <div class="inputs" aria-label="Placar Brasil contra Japão">
+            <input type="number" id="bra2" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 2">
+            <span class="versus">X</span>
+            <input type="number" id="adv2" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Japão na rodada 2">
+          </div>
+          <div class="time away">
+            <span>JAP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/ca.svg');">
+        <span class="jogo-info">Rodada 3 • 24 JUN 2026 • 16:00 (BRT)</span>
+        <div class="placar">
+          <div class="time home">
+            <span>BRA</span>
+          </div>
+          <div class="inputs" aria-label="Placar Brasil contra Canadá">
+            <input type="number" id="bra3" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 3">
+            <span class="versus">X</span>
+            <input type="number" id="adv3" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Canadá na rodada 3">
+          </div>
+          <div class="time away">
+            <span>CAN</span>
+          </div>
+        </div>
+      </div>
+
+      <input type="text" id="nome_jogador" class="input-nome" placeholder="Digite seu Nome Completo" autocomplete="name">
+      <button class="btn" id="btn-gerar">Confirmar e Gerar PIX</button>
+    </div>
+
+    <div id="qr-container">
+      <h3>Quase lá, <span id="span-nome"></span>!</h3>
+      <p>ID Único do Bilhete: <strong id="span-id" class="ticket-id"></strong></p>
+      
+      <div id="qrcode"></div>
+      <div id="pix-texto-codigo" class="pix-box">Gerando string de pagamento...</div>
+      
+      <button class="btn" id="btn-copia-cola">Copiar Código PIX</button>
+      <p class="payment-note">
+        Após realizar o pagamento, o Lucas validará o seu bilhete no sistema.
+      </p>
+    </div>
+  </div>
+
+  <script src="pix.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
