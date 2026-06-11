@@ -32,7 +32,7 @@ body {
 }
 
 body::before {
-  content: ""; position: fixed; inset: 0; pointer-events: none; opacity: 0.24;
+  content: ""; position: fixed; inset: 0; pointer-events: none; opacity: 0.54;
   background-image:
     linear-gradient(rgba(22, 163, 74, 0.12) 1px, transparent 1px),
     linear-gradient(90deg, rgba(22, 163, 74, 0.12) 1px, transparent 1px);
@@ -49,8 +49,8 @@ body::before {
 }
 
 .container {
-  position: relative; width: 100%; max-width: 520px; padding: 26px 18px 34px;
-  display: flex; flex-direction: column; gap: 22px; z-index: 1;
+  position: relative; width: 100%; max-width: 920px; padding: 26px 18px 34px;
+  display: flex; flex-direction: column; gap: 12px; z-index: 1;
 }
 
 .container-admin { max-width: 1000px !important; }
@@ -120,11 +120,11 @@ body::before {
 }
 .match-card::before {
   left: 0; background-position: center left;
-  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.32) 50%, #ffffff 100%), var(--flag-left);
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.32) 10%, #ffffff 100%), var(--flag-left);
 }
 .match-card::after {
   right: 0; background-position: center right;
-  background-image: linear-gradient(270deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.32) 50%, #ffffff 100%), var(--flag-right);
+  background-image: linear-gradient(270deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.32) 10%, #ffffff 100%), var(--flag-right);
 }
 .match-card .jogo-info, .match-card .placar { position: relative; z-index: 1; }
 .match-card > .jogo-info {
@@ -135,7 +135,7 @@ body::before {
 .placar { display: grid; grid-template-columns: minmax(70px, 1fr) auto minmax(70px, 1fr); width: 100%; align-items: center; gap: 10px; }
 .time { position: relative; min-height: 74px; display: flex; align-items: center; justify-content: center; }
 .time span {
-  display: inline-flex; min-width: 66px; justify-content: center; padding: 9px 13px; border-radius: 999px;
+  display: inline-flex; min-width: 66px; justify-content: center; padding: 9px 13px; border-radius: 7px;
   font-family: var(--score-font); font-size: 1.22rem; line-height: 1; font-weight: 950; letter-spacing: 1.3px;
   color: #111827; background: rgba(255, 255, 255, 0.74); border: 1px solid rgba(255, 255, 255, 0.94);
   box-shadow: 0 9px 22px rgba(0, 0, 0, 0.10); backdrop-filter: blur(8px);
@@ -153,7 +153,7 @@ body::before {
 .versus {
   position: relative; z-index: 1; display: grid; place-items: center; width: 30px; height: 42px;
   font-family: var(--score-font); font-size: 1.18rem; font-weight: 950; line-height: 1;
-  color: var(--accent-yellow); text-shadow: 0 0 12px rgba(246, 201, 69, 0.48);
+  color: var(--accent-yellow); text-shadow: 0 0 19px rgba(248, 193, 28, 0.48);
 }
 
 /* INPUTS */
@@ -165,6 +165,7 @@ input[type="number"] {
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
   box-shadow: inset 0 -4px 0 rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.86), 0 7px 16px rgba(0, 0, 0, 0.22);
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 input[type="number"]::placeholder { color: rgba(7, 20, 39, 0.34); }
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }

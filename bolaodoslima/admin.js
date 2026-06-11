@@ -1,6 +1,6 @@
 // admin.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs, getDoc, setDoc, updateDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, getDoc, setDoc, updateDoc, deleteDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -118,6 +118,7 @@ async function buscarBilhetesDoBanco() {
               : `<button class="btn-sm btn-desvalidar" data-id="${documento.id}" data-action="revogar">Voltar</button>`
             }
             <button class="btn-sm btn-editar" data-id="${documento.id}" data-action="editar">Editar</button>
+            <button class="btn-sm btn-excluir" data-id="${documento.id}" data-action="excluir">Remover</button>
           </td>
         </tr>
       `;
@@ -142,6 +143,16 @@ document.getElementById('lista-bilhetes').addEventListener('click', async (e) =>
     buscarBilhetesDoBanco();
   } else if (acao === "editar") {
     abrirModalEdicao(idInterno, memoriaApostas[idInterno]);
+  } else if (acao === "excluir") {
+    // Nova regra de exclusão com alerta de segurança
+    if (confirm("Tem certeza que deseja EXCLUIR permanentemente este palpite? Essa ação não tem volta.")) {
+      try {
+        await deleteDoc(doc(db, "bilhetes", idInterno));
+        buscarBilhetesDoBanco(); // Recarrega a tabela após apagar
+      } catch (error) {
+        alert("Erro ao excluir: " + error.message);
+      }
+    }
   }
 });
 

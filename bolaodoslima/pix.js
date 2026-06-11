@@ -1,9 +1,9 @@
 // pix.js
 function formatarPIX(txid) {
-  const MINHA_CHAVE_PIX = "lucasvascon@outlook.com"; 
+  const MINHA_CHAVE_PIX = "vasconlucas.razr@gmail.com"; 
   const NOME_RECEBEDOR = "LUCAS_EDUARDO_DE_LIMA_VAS"; 
   const CIDADE_RECEBEDOR = "CAMPINAS";          
-  const VALOR_APOSTA = "15.00";                 
+  const VALOR_APOSTA = "10.00";                 
 
   const gerarTLV = (id, valor) => {
     const strValor = String(valor);
