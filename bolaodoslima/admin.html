@@ -5,72 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Admin - Bolão dos Limas</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    /* Alargando o container APENAS no admin */
-    .container { max-width: 1000px !important; }
-    
-    /* Transição suave do fundo para o feedback visual */
-    body { transition: background-color 0.4s ease; }
-    
-    /* TEMA VALIDADOS (Ativado via JS) */
-    body.tema-validado { background-color: #f0fdf4; }
-    body.tema-validado .header h1 span { color: #16a34a; }
-    
-    /* NOVA UI DAS ABAS (Estilo Segmented Control) */
-    .tab-menu { 
-      display: flex; gap: 0; background: #e2e8f0; border-radius: 12px; padding: 6px; margin-bottom: 16px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .tab-btn { 
-      background: transparent; color: #64748b; border: none; padding: 14px; border-radius: 8px; cursor: pointer; flex: 1; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; 
-    }
-    .tab-btn:hover { color: #0f172a; }
-    
-    /* Cores das abas ativas */
-    .tab-btn.active#tab-pendentes { background: #fff; color: #d97706; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .tab-btn.active#tab-validados { background: #fff; color: #16a34a; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-
-    /* Barra de Busca */
-    .search-container { margin-bottom: 20px; }
-    .input-busca { width: 100%; padding: 14px 16px; background-color: var(--card-bg); color: var(--text-main); border: 1px solid #cbd5e1; border-radius: 12px; font-size: 1rem; outline: none; box-shadow: var(--shadow); transition: 0.2s; }
-    .input-busca:focus { border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.2); }
-
-    /* Tabela Gerencial */
-    .admin-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
-    .admin-table th { background: #f8fafc; color: var(--text-muted); text-align: left; padding: 14px 16px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0;}
-    .admin-table td { padding: 16px; border-bottom: 1px solid #f1f5f9; color: var(--text-main); font-weight: 500; font-size: 0.95rem; vertical-align: middle; }
-    .admin-table tr:hover { background: #f8fafc; }
-    
-    /* Botões da Tabela */
-    .td-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
-    .btn-sm { padding: 8px 12px; font-size: 0.8rem; border-radius: 6px; cursor: pointer; border: none; font-weight: 600; transition: 0.2s; }
-    .btn-validar { background: #22c55e; color: #fff; }
-    .btn-desvalidar { background: #f59e0b; color: #fff; }
-    .btn-editar { background: #3b82f6; color: #fff; }
-    .btn-excluir { background: #ef4444; color: #fff; }
-    .btn-sm:hover { opacity: 0.8; transform: translateY(-1px); }
-
-    /* Modal */
-    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
-    .modal-content { background: var(--bg-color); width: 100%; max-width: 400px; padding: 24px; border-radius: var(--radius); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px; }
-    .modal-content h2 { color: var(--text-main); font-size: 1.5rem; text-align: center; }
-    .modal-jogos { display: flex; flex-direction: column; gap: 12px; background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; }
-    .linha-jogo { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
-    .input-edit-gol { width: 45px; padding: 8px; text-align: center; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; font-weight: bold; background: #fff;}
-    .modal-acoes { display: flex; gap: 12px; margin-top: 10px; }
-    .modal-acoes button { flex: 1; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
+  <div class="container container-admin">
     
-    <!-- TELA DE LOGIN -->
     <div id="auth-section" class="auth-panel">
       <div class="header">
         <h1>Bolão dos <span>Limas</span></h1>
         <p>Acesso Administrativo Restrito</p>
       </div>
-      <div class="card" style="margin-top: 16px; max-width: 400px; margin-left: auto; margin-right: auto;">
+      <div class="card" style="margin-top: 16px; max-width: 400px; margin-left: auto; margin-right: auto; padding: 24px;">
         <input type="email" id="admin-email" class="input-nome" placeholder="E-mail do Administrador">
         <input type="password" id="admin-senha" class="input-nome" placeholder="Senha do Painel" style="margin-top: 12px;">
         <button class="btn" id="btn-login" style="margin-top: 16px;">Acessar Sistema</button>
@@ -78,66 +23,80 @@
       </div>
     </div>
 
-    <!-- PAINEL DE CONTROLE -->
-    <div id="admin-section" class="admin-panel">
-      <div class="header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div id="admin-section" class="admin-panel" style="display: none;">
+      <div class="header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 18px;">
         <h1 style="font-size: 1.8rem;">Painel de <span>Controle</span></h1>
         <button id="btn-logout" style="background: none; border: none; color: #ef4444; font-weight: 700; cursor: pointer; padding: 8px; font-size: 1rem;">Sair</button>
       </div>
 
-      <!-- Abas Estilo iOS -->
-      <div class="tab-menu">
-        <button class="tab-btn active" id="tab-pendentes">Pendentes</button>
-        <button class="tab-btn" id="tab-validados">Validados</button>
+      <div class="tab-menu" style="margin-bottom: 20px;">
+        <button class="tab-btn active" id="tab-pendentes">Apostas Pendentes</button>
+        <button class="tab-btn" id="tab-validados">Apostas Validadas</button>
+        <button class="tab-btn" id="tab-config">Resultados & Config.</button>
       </div>
 
-      <!-- Barra de Busca -->
-      <div class="search-container">
-        <input type="text" id="input-busca" class="input-busca" placeholder="🔍 Buscar por ID ou Nome do apostador...">
+      <div id="visao-lista">
+        <div class="search-container">
+          <input type="text" id="input-busca" class="input-busca" placeholder="🔍 Buscar por ID ou Nome do apostador...">
+        </div>
+        <div id="lista-bilhetes" style="overflow-x: auto;"></div>
       </div>
 
-      <!-- Container da Tabela -->
-      <div id="lista-bilhetes" style="overflow-x: auto;">
+      <div id="visao-config" style="display: none;">
+        <div class="card" style="padding: 24px;">
+          
+          <h2 style="font-size: 1.4rem; margin-bottom: 16px;">Parâmetros de Pontuação</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+            <div>
+              <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Pontos por Acerto de Resultado (Vencedor/Empate)</label>
+              <input type="number" id="cfg-pts-resultado" class="input-nome" style="margin-top: 6px;" value="1">
+            </div>
+            <div>
+              <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Pontos EXTRAS por Placar Exato</label>
+              <input type="number" id="cfg-pts-exato" class="input-nome" style="margin-top: 6px;" value="2">
+            </div>
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 24px 0;">
+
+          <h2 style="font-size: 1.4rem; margin-bottom: 8px;">Placares Oficiais</h2>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">Preencha os jogos que já terminaram. Deixe vazio os que não ocorreram.</p>
+          
+          <div class="modal-jogos" style="max-width: 500px;">
+            <div class="linha-jogo">
+              <span style="color: var(--text-muted);">BRA x MAR</span>
+              <div><input type="number" id="real-j1-a" class="input-edit-gol"> X <input type="number" id="real-j1-b" class="input-edit-gol"></div>
+            </div>
+            <div class="linha-jogo">
+              <span style="color: var(--text-muted);">BRA x HAI</span>
+              <div><input type="number" id="real-j2-a" class="input-edit-gol"> X <input type="number" id="real-j2-b" class="input-edit-gol"></div>
+            </div>
+            <div class="linha-jogo">
+              <span style="color: var(--text-muted);">SCO x BRA</span>
+              <div><input type="number" id="real-j3-a" class="input-edit-gol"> X <input type="number" id="real-j3-b" class="input-edit-gol"></div>
+            </div>
+          </div>
+
+          <button id="btn-salvar-calcular" class="btn" style="margin-top: 24px;">Salvar Regras e Recalcular Ranking Geral</button>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- MODAL DE EDIÇÃO -->
   <div id="modal-editar" class="modal-overlay">
     <div class="modal-content">
       <h2>Editar Aposta</h2>
       <input type="hidden" id="edit-id-banco">
-      
       <div>
         <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Nome do Apostador</label>
         <input type="text" id="edit-nome" class="input-nome" style="padding: 12px; margin-top: 4px;">
       </div>
-
       <div class="modal-jogos">
-        <div class="linha-jogo">
-          <span style="color: var(--text-muted);">BRA x MAR</span>
-          <div>
-            <input type="number" id="edit-j1-a" class="input-edit-gol" min="0"> X 
-            <input type="number" id="edit-j1-b" class="input-edit-gol" min="0">
-          </div>
-        </div>
-        <div class="linha-jogo">
-          <span style="color: var(--text-muted);">BRA x HAI</span>
-          <div>
-            <input type="number" id="edit-j2-a" class="input-edit-gol" min="0"> X 
-            <input type="number" id="edit-j2-b" class="input-edit-gol" min="0">
-          </div>
-        </div>
-        <div class="linha-jogo">
-          <span style="color: var(--text-muted);">ESC x BRA</span>
-          <div>
-            <input type="number" id="edit-j3-a" class="input-edit-gol" min="0"> X 
-            <input type="number" id="edit-j3-b" class="input-edit-gol" min="0">
-          </div>
-        </div>
+        <div class="linha-jogo"><span style="color: var(--text-muted);">BRA x MAR</span><div><input type="number" id="edit-j1-a" class="input-edit-gol" min="0"> X <input type="number" id="edit-j1-b" class="input-edit-gol" min="0"></div></div>
+        <div class="linha-jogo"><span style="color: var(--text-muted);">BRA x HAI</span><div><input type="number" id="edit-j2-a" class="input-edit-gol" min="0"> X <input type="number" id="edit-j2-b" class="input-edit-gol" min="0"></div></div>
+        <div class="linha-jogo"><span style="color: var(--text-muted);">SCO x BRA</span><div><input type="number" id="edit-j3-a" class="input-edit-gol" min="0"> X <input type="number" id="edit-j3-b" class="input-edit-gol" min="0"></div></div>
       </div>
-
       <div class="modal-acoes">
         <button id="btn-cancelar-edicao" class="btn" style="background: #e2e8f0; color: #475569;">Cancelar</button>
         <button id="btn-salvar-edicao" class="btn">Salvar</button>
@@ -147,4 +106,4 @@
 
   <script type="module" src="admin.js"></script>
 </body>
-</html>   
+</html>

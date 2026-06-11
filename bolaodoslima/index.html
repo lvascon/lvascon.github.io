@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bolão dos Limas - Copa 2026</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
@@ -18,59 +19,49 @@
       <p class="combo-price">Palpite: R$ 15,00</p>
     </div>
 
+    <div class="tab-menu" id="menu-publico">
+      <button class="tab-btn active" id="tab-fazer-aposta">Fazer Palpite</button>
+      <button class="tab-btn" id="tab-ranking">Ver Ranking</button>
+    </div>
+
     <div id="formulario-apostas" class="bets-form">
       
-      <!-- Rodada 1: Brasil x Marrocos -->
       <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/ma.svg');">
-        <span class="jogo-info">Rodada 1 • 13 JUN 2026 (Sábado) • 19:00 (BRT) • Estádio MetLife</span>
+        <span class="jogo-info">Rodada 1 • 13 JUN 2026 • 19:00</span>
         <div class="placar">
-          <div class="time home">
-            <span>BRASIL</span>
-          </div>
-          <div class="inputs" aria-label="Placar Brasil contra Marrocos">
-            <input type="number" id="bra1" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 1">
+          <div class="time home"><span>BRASIL</span></div>
+          <div class="inputs">
+            <input type="number" id="bra1" min="0" placeholder="0">
             <span class="versus">X</span>
-            <input type="number" id="adv1" min="0" placeholder="0" inputmode="numeric" aria-label="Gols de Marrocos na rodada 1">
+            <input type="number" id="adv1" min="0" placeholder="0">
           </div>
-          <div class="time away">
-            <span>MARROCOS</span>
-          </div>
+          <div class="time away"><span>MARROCOS</span></div>
         </div>
       </div>
 
-      <!-- Rodada 2: Brasil x Haiti -->
       <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/ht.svg');">
-        <span class="jogo-info">Rodada 2 • 19 JUN 2026 (Sexta-feira) • 21:30 (BRT) • Estádio Lincoln Financial Field</span>
+        <span class="jogo-info">Rodada 2 • 19 JUN 2026 • 21:30</span>
         <div class="placar">
-          <div class="time home">
-            <span>BRASIL</span>
-          </div>
-          <div class="inputs" aria-label="Placar Brasil contra Haiti">
-            <input type="number" id="bra2" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 2">
+          <div class="time home"><span>BRASIL</span></div>
+          <div class="inputs">
+            <input type="number" id="bra2" min="0" placeholder="0">
             <span class="versus">X</span>
-            <input type="number" id="adv2" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Haiti na rodada 2">
+            <input type="number" id="adv2" min="0" placeholder="0">
           </div>
-          <div class="time away">
-            <span>HAITI</span>
-          </div>
+          <div class="time away"><span>HAITI</span></div>
         </div>
       </div>
 
-      <!-- Rodada 3: Escócia x Brasil (Inversão de mando) -->
       <div class="card match-card" style="--flag-left: url('assets/sco.svg'); --flag-right: url('assets/br.svg');">
-        <span class="jogo-info">Rodada 3 • 24 JUN 2026 (Quarta-feira) • 19:00 (BRT) • Estádio Hard Rock</span>
+        <span class="jogo-info">Rodada 3 • 24 JUN 2026 • 19:00</span>
         <div class="placar">
-          <div class="time home">
-            <span>ESCÓCIA</span>
-          </div>
-          <div class="inputs" aria-label="Placar Escócia contra Brasil">
-            <input type="number" id="adv3" min="0" placeholder="0" inputmode="numeric" aria-label="Gols da Escócia na rodada 3">
+          <div class="time home"><span>ESCÓCIA</span></div>
+          <div class="inputs">
+            <input type="number" id="adv3" min="0" placeholder="0">
             <span class="versus">X</span>
-            <input type="number" id="bra3" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 3">
+            <input type="number" id="bra3" min="0" placeholder="0">
           </div>
-          <div class="time away">
-            <span>BRASIL</span>
-          </div>
+          <div class="time away"><span>BRASIL</span></div>
         </div>
       </div>
 
@@ -78,17 +69,29 @@
       <button class="btn" id="btn-gerar">Confirmar e Gerar PIX</button>
     </div>
 
+    <div id="secao-ranking" class="bets-form" style="display: none;">
+      <div class="card" style="padding: 16px; overflow-x: auto;">
+        <h2 style="text-align: center; margin-bottom: 16px; font-size: 1.2rem;">Classificação Geral</h2>
+        <div id="tabela-ranking-container">
+          <p style="text-align: center; color: var(--text-muted);">Carregando ranking...</p>
+        </div>
+      </div>
+    </div>
+
     <div id="qr-container">
       <h3>Quase lá, <span id="span-nome"></span>!</h3>
-      <p>ID Único do Bilhete: <strong id="span-id" class="ticket-id"></strong></p>
+      <p>ID Único: <strong id="span-id" class="ticket-id"></strong></p>
+      
+      <div class="resumo-aposta" id="resumo-visual">
+        </div>
       
       <div id="qrcode"></div>
       <div id="pix-texto-codigo" class="pix-box">Gerando string de pagamento...</div>
       
       <button class="btn" id="btn-copia-cola">Copiar Código PIX</button>
-      <p class="payment-note">
-        Após realizar o pagamento, o Lucas validará o seu bilhete no sistema.
-      </p>
+      <button class="btn btn-secundario" id="btn-voltar" style="margin-top: 12px;">Voltar e Corrigir Palpites</button>
+      
+      <p class="payment-note">Após realizar o pagamento, o Lucas validará o seu bilhete no sistema.</p>
     </div>
   </div>
 
