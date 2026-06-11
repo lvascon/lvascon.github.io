@@ -23,11 +23,13 @@ document.getElementById('btn-gerar').addEventListener('click', async () => {
   const a1 = document.getElementById('adv1').value;
   const b2 = document.getElementById('bra2').value;
   const a2 = document.getElementById('adv2').value;
-  const b3 = document.getElementById('bra3').value;
+  
+  // Na rodada 3, adv3 é o time da casa (Escócia) e bra3 é o visitante (Brasil)
   const a3 = document.getElementById('adv3').value;
+  const b3 = document.getElementById('bra3').value;
   
   if(!nome || b1==="" || a1==="" || b2==="" || a2==="" || b3==="" || a3==="") {
-    alert("Por favor, preencha o seu nome e todos os placares2!");
+    alert("Por favor, preencha todos os campos!");
     return;
   }
 
@@ -43,8 +45,8 @@ document.getElementById('btn-gerar').addEventListener('click', async () => {
     palpites: [
       { jogo: "BRA x MAR", placarA: parseInt(b1), placarB: parseInt(a1) },
       { jogo: "BRA x HAI", placarA: parseInt(b2), placarB: parseInt(a2) },
-      // Aqui a ordem muda para bater com o visual (Escócia primeiro)
-      { jogo: "ESC x BRA", placarA: parseInt(a3), placarB: parseInt(b3) } 
+      // Organizado de acordo com o mando de campo: Escócia (placarA/a3) x Brasil (placarB/b3)
+      { jogo: "SCO x BRA", placarA: parseInt(a3), placarB: parseInt(b3) } 
     ]
   };
 

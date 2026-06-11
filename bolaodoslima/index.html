@@ -12,61 +12,64 @@
 
   <div class="container" id="app-container">
     <div class="header">
-      <div class="header-kicker">Copa 2026 • Bolão Oficial</div>
+      <div class="header-kicker">Copa 2026</div>
       <h1>Bolão dos <span>Limas</span></h1>
       <p>Fase de Grupos • Escolha os 3 Placares</p>
-      <p class="combo-price">Inscrição Combo: R$ 15,00</p>
+      <p class="combo-price">Palpite: R$ 15,00</p>
     </div>
 
     <div id="formulario-apostas" class="bets-form">
       
-      <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/es.svg');">
-        <span class="jogo-info">Rodada 1 • 14 JUN 2026 • 16:00 (BRT)</span>
+      <!-- Rodada 1: Brasil x Marrocos -->
+      <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/ma.svg');">
+        <span class="jogo-info">Rodada 1 • 13 JUN 2026 (Sábado) • 19:00 (BRT) • Estádio MetLife</span>
         <div class="placar">
           <div class="time home">
-            <span>BRA</span>
+            <span>BRASIL</span>
           </div>
-          <div class="inputs" aria-label="Placar Brasil contra Espanha">
+          <div class="inputs" aria-label="Placar Brasil contra Marrocos">
             <input type="number" id="bra1" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 1">
             <span class="versus">X</span>
-            <input type="number" id="adv1" min="0" placeholder="0" inputmode="numeric" aria-label="Gols da Espanha na rodada 1">
+            <input type="number" id="adv1" min="0" placeholder="0" inputmode="numeric" aria-label="Gols de Marrocos na rodada 1">
           </div>
           <div class="time away">
-            <span>ESP</span>
+            <span>MARROCOS</span>
           </div>
         </div>
       </div>
 
-      <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/jp.svg');">
-        <span class="jogo-info">Rodada 2 • 19 JUN 2026 • 13:00 (BRT)</span>
+      <!-- Rodada 2: Brasil x Haiti -->
+      <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/ht.svg');">
+        <span class="jogo-info">Rodada 2 • 19 JUN 2026 (Sexta-feira) • 21:30 (BRT) • Estádio Lincoln Financial Field</span>
         <div class="placar">
           <div class="time home">
-            <span>BRA</span>
+            <span>BRASIL</span>
           </div>
-          <div class="inputs" aria-label="Placar Brasil contra Japão">
+          <div class="inputs" aria-label="Placar Brasil contra Haiti">
             <input type="number" id="bra2" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 2">
             <span class="versus">X</span>
-            <input type="number" id="adv2" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Japão na rodada 2">
+            <input type="number" id="adv2" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Haiti na rodada 2">
           </div>
           <div class="time away">
-            <span>JAP</span>
+            <span>HAITI</span>
           </div>
         </div>
       </div>
 
-      <div class="card match-card" style="--flag-left: url('assets/br.svg'); --flag-right: url('assets/ca.svg');">
-        <span class="jogo-info">Rodada 3 • 24 JUN 2026 • 16:00 (BRT)</span>
+      <!-- Rodada 3: Escócia x Brasil (Inversão de mando) -->
+      <div class="card match-card" style="--flag-left: url('assets/sco.svg'); --flag-right: url('assets/br.svg');">
+        <span class="jogo-info">Rodada 3 • 24 JUN 2026 (Quarta-feira) • 19:00 (BRT) • Estádio Hard Rock</span>
         <div class="placar">
           <div class="time home">
-            <span>BRA</span>
+            <span>ESCÓCIA</span>
           </div>
-          <div class="inputs" aria-label="Placar Brasil contra Canadá">
-            <input type="number" id="bra3" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 3">
+          <div class="inputs" aria-label="Placar Escócia contra Brasil">
+            <input type="number" id="adv3" min="0" placeholder="0" inputmode="numeric" aria-label="Gols da Escócia na rodada 3">
             <span class="versus">X</span>
-            <input type="number" id="adv3" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Canadá na rodada 3">
+            <input type="number" id="bra3" min="0" placeholder="0" inputmode="numeric" aria-label="Gols do Brasil na rodada 3">
           </div>
           <div class="time away">
-            <span>CAN</span>
+            <span>BRASIL</span>
           </div>
         </div>
       </div>

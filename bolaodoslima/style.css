@@ -90,12 +90,12 @@ body::before {
 .header::before {
   content: "";
   position: absolute;
-  inset: -32px;
+  inset: 2px;
   background-image: url('assets/logo.png');
-  background-size: 76%;
-  background-position: center;
+  background-size: 26%;
+  background-position: left;
   background-repeat: no-repeat;
-  opacity: 0.055;
+  opacity: 0.4555;
   z-index: -2;
 }
 
@@ -137,7 +137,7 @@ body::before {
 
 .header h1 span {
   color: var(--accent-green);
-  text-shadow: 0 2px 0 rgba(246, 201, 69, 0.42);
+  text-shadow: 3px 4px 0 rgba(247, 255, 26, 0.959);
 }
 
 .header p {
