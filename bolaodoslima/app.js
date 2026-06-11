@@ -32,7 +32,14 @@ document.getElementById('btn-gerar').addEventListener('click', async () => {
     alert("Por favor, preencha todos os campos!");
     return;
   }
-
+// TRAVA DE TEMPO: 13 de Junho de 2026 às 19:00 (Horário de Brasília)
+  const dataLimite = new Date("2026-06-13T19:00:00-03:00");
+  const agora = new Date();
+  
+  if (agora > dataLimite) {
+    alert("⚠️ Apostas Encerradas! O primeiro jogo já começou ou está prestes a começar.");
+    return; // Para a execução e não deixa salvar no banco
+  }
   // Gera um ID de transação curto único legível (Ex: IDM3A9)
   const bilheteId = "ID" + Math.random().toString(36).substring(2, 6).toUpperCase();
 
@@ -48,6 +55,7 @@ document.getElementById('btn-gerar').addEventListener('click', async () => {
       // Organizado de acordo com o mando de campo: Escócia (placarA/a3) x Brasil (placarB/b3)
       { jogo: "SCO x BRA", placarA: parseInt(a3), placarB: parseInt(b3) } 
     ]
+    
   };
 
   try {
