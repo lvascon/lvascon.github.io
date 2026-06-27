@@ -115,7 +115,7 @@ body::before {
   align-items: stretch; justify-content: center; gap: var(--gap); overflow: hidden; isolation: isolate;
 }
 .match-card::before, .match-card::after {
-  content: ""; position: absolute; top: 0; bottom: 0; width: 50%; z-index: -2; background-repeat: no-repeat;
+  content: ""; position: absolute; top: 0; bottom: 0; width: 40%; z-index: -2; background-repeat: no-repeat;
   background-size: cover; filter: saturate(1.12) contrast(1.02);
 }
 .match-card::before {

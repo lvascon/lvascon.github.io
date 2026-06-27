@@ -62,19 +62,8 @@
           <h2 style="font-size: 1.4rem; margin-bottom: 8px;">Placares Oficiais</h2>
           <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">Preencha os jogos que já terminaram. Deixe vazio os que não ocorreram.</p>
           
-          <div class="modal-jogos" style="max-width: 500px;">
-            <div class="linha-jogo">
-              <span style="color: var(--text-muted);">BRA x MAR</span>
-              <div><input type="number" id="real-j1-a" class="input-edit-gol"> X <input type="number" id="real-j1-b" class="input-edit-gol"></div>
-            </div>
-            <div class="linha-jogo">
-              <span style="color: var(--text-muted);">BRA x HAI</span>
-              <div><input type="number" id="real-j2-a" class="input-edit-gol"> X <input type="number" id="real-j2-b" class="input-edit-gol"></div>
-            </div>
-            <div class="linha-jogo">
-              <span style="color: var(--text-muted);">SCO x BRA</span>
-              <div><input type="number" id="real-j3-a" class="input-edit-gol"> X <input type="number" id="real-j3-b" class="input-edit-gol"></div>
-            </div>
+          <div class="modal-jogos" style="max-width: 500px; max-height: 350px; overflow-y: auto;">
+            <div id="container-jogos-reais"></div>
           </div>
 
           <button id="btn-salvar-calcular" class="btn" style="margin-top: 24px;">Salvar Regras e Recalcular Ranking Geral</button>
@@ -92,10 +81,8 @@
         <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Nome do Apostador</label>
         <input type="text" id="edit-nome" class="input-nome" style="padding: 12px; margin-top: 4px;">
       </div>
-      <div class="modal-jogos">
-        <div class="linha-jogo"><span style="color: var(--text-muted);">BRA x MAR</span><div><input type="number" id="edit-j1-a" class="input-edit-gol" min="0"> X <input type="number" id="edit-j1-b" class="input-edit-gol" min="0"></div></div>
-        <div class="linha-jogo"><span style="color: var(--text-muted);">BRA x HAI</span><div><input type="number" id="edit-j2-a" class="input-edit-gol" min="0"> X <input type="number" id="edit-j2-b" class="input-edit-gol" min="0"></div></div>
-        <div class="linha-jogo"><span style="color: var(--text-muted);">SCO x BRA</span><div><input type="number" id="edit-j3-a" class="input-edit-gol" min="0"> X <input type="number" id="edit-j3-b" class="input-edit-gol" min="0"></div></div>
+      <div class="modal-jogos" style="max-height: 350px; overflow-y: auto;">
+        <div id="container-jogos-edicao"></div>
       </div>
       <div class="modal-acoes">
         <button id="btn-cancelar-edicao" class="btn" style="background: #e2e8f0; color: #475569;">Cancelar</button>
